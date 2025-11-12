@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hire — Job Junction</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="logo" href="/index.html">Job<span>Junction</span></a>
+      <nav class="nav-links">
+        <a href="/index.html">Home</a>
+        <a href="/jobs.html">Jobs</a>
+        <a href="/hire.html" class="active">Hire</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-card">
+    <h2>Post a New Job</h2>
+    <form id="hireForm">
+      <label>Job Title<input required name="title" /></label>
+      <label>Company Name<input required name="company" /></label>
+      <label>Location<input required name="location" /></label>
+      <label>Description<textarea name="description" required rows="4"></textarea></label>
+      <button class="btn primary" type="submit">Post Job</button>
+      <p id="hireMsg" class="msg"></p>
+    </form>
+  </main>
+
+  <script>
+    const form = document.getElementById('hireForm');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      const res = await fetch('/hire', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const j = await res.json();
+      document.getElementById('hireMsg').textContent = j.message || j.error;
+    });
+  </script>
+</body>
+</html>

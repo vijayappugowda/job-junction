@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Job Junction — Jobs</title>
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f6f8fc;
+  margin: 0;
+}
+header {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .logo {
+  font-size: 22px;
+  color: #2b4eff;
+  font-weight: 700;
+}
+header .logo span {
+  color: #00c48c;
+}
+.jobs-container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 15px;
+}
+.job-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+  margin-bottom: 15px;
+  transition: transform .2s;
+}
+.job-card:hover {
+  transform: translateY(-4px);
+}
+.job-card h3 {
+  margin: 0;
+  color: #2b4eff;
+}
+.job-card .meta {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+.job-card p {
+  color: #333;
+  font-size: 14px;
+  margin-top: 8px;
+}
+button {
+  background: #2b4eff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+button:hover {
+  background: #00c48c;
+}
+.searchbar {
+  text-align: center;
+  margin: 25px;
+}
+.searchbar input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 60%;
+  max-width: 400px;
+}
+.searchbar button {
+  margin-left: 10px;
+}
+.home-btn {
+  background: #00c48c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Job<span>Junction</span></div>
+  <div>
+    <button class="home-btn" onclick="window.location.href='/index.html'">🏠 Home</button>
+  </div>
+</header>
+
+<section class="searchbar">
+  <input id="search" placeholder="Search by title or company" />
+  <button onclick="loadJobs()">Search</button>
+</section>
+
+<div class="jobs-container" id="jobs-list"></div>
+
+<script>
+async function loadJobs() {
+  const box = document.getElementById("jobs-list");
+  box.innerHTML = "<p>Loading jobs...</p>";
+
+  try {
+    const res = await fetch("/jobs?" + Date.now()); // cache-busting
+    const jobs = await res.json();
+
+    if (!jobs.length) {
+      box.innerHTML = "<p>No jobs available yet.</p>";
+      return;
+    }
+
+    const q = document.getElementById("search").value.toLowerCase();
+    const filtered = jobs.filter(j =>
+      j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q)
+    );
+
+    box.innerHTML = filtered
+      .map(j => `
+        <div class="job-card">
+          <h3>${j.title}</h3>
+          <div class="meta">${j.company} • ${j.location}</div>
+          <p>${j.description.substring(0, 150)}...</p>
+          ${j.website ? `<a href="${j.website}" target="_blank" style="color:#00c48c;text-decoration:none;">🌐 Visit Company Website</a>` : ""}
+          <br/>
+          <button onclick="applyJob(${j.id}, '${j.title}', '${j.company}')">Apply</button>
+        </div>
+      `)
+      .join("");
+  } catch (e) {
+    box.innerHTML = "<p style='color:red'>Failed to load jobs.</p>";
+  }
+}
+
+async function applyJob(jobId, title, company) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    alert("Please log in first!");
+    return (window.location.href = "/login.html");
+  }
+
+  const phone = prompt(`Enter phone number for ${title} at ${company}:`);
+  if (!phone) return;
+
+  const res = await fetch("/apply", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      user_id: user.id,
+      job_id: jobId,
+      phone,
+      email: user.email
+    })
+  });
+
+  const result = await res.json();
+  alert(result.message || result.error);
+}
+
+loadJobs();
+</script>
+</body>
+</html>

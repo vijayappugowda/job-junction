@@ -1,0 +1,68 @@
+/* ---------- base ---------- */
+:root{
+  --bg:#f4f7fb; --card:#fff; --accent:#2b4eff; --accent-2:#00c48c; --muted:#6b7280;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg); color:#111; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- header ---------- */
+.nav{background:#fff; box-shadow:0 4px 18px rgba(20,20,40,0.05); position:sticky; top:0; z-index:20}
+.nav .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px}
+.logo{font-weight:700;color:var(--accent);text-decoration:none}
+.logo span{color:var(--accent-2)}
+.nav-links{display:flex;gap:18px;align-items:center}
+.nav-links a{color:#111;text-decoration:none;padding:8px 6px;transition:color .18s}
+.nav-links a.active{color:var(--accent)}
+.btn{border-radius:8px;padding:8px 14px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.accent{background:var(--accent-2);color:#fff}
+.btn.ghost{background:transparent;color:#111;border:1px solid rgba(0,0,0,0.06)}
+
+.hamburger{display:none;background:transparent;border:0;font-size:20px}
+
+/* ---------- hero ---------- */
+.hero{height:56vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;padding:40px}
+.hero-card{max-width:900px;text-align:center;transform:translateY(0);transition:transform .4s ease}
+.hero h1{font-size:34px;margin-bottom:10px;letter-spacing:-0.5px}
+.hero p{opacity:.95;margin-bottom:18px}
+
+/* ---------- featured ---------- */
+.container{max-width:1100px;margin:28px auto;padding:0 16px}
+.featured{padding:30px 0}
+.cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.card{background:var(--card);padding:16px;border-radius:12px;min-width:260px;max-width:320px;box-shadow:0 6px 18px rgba(20,20,40,0.06);transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-6px);box-shadow:0 14px 32px rgba(20,20,40,0.08)}
+
+/* ---------- jobs list ---------- */
+.searchbar{display:flex;gap:8px;align-items:center;margin:12px 0}
+.searchbar input{flex:1;padding:10px;border-radius:8px;border:1px solid #e6e9ee}
+.list-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:8px 0}
+.job{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(20,20,40,0.04);transition:transform .12s}
+.job h4{margin:0 0 8px;font-size:18px}
+.job .meta{color:var(--muted);font-size:13px;margin-bottom:10px}
+.job .apply{margin-top:10px}
+
+/* ---------- job detail ---------- */
+.job-detail{background:var(--card);padding:20px;border-radius:12px;box-shadow:0 8px 26px rgba(0,0,0,0.04)}
+.job-detail h2{margin-bottom:6px}
+
+/* ---------- auth ---------- */
+.auth-card{max-width:420px;margin:40px auto;padding:22px;background:var(--card);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.04)}
+.auth-card form label{display:block;margin-bottom:10px;font-size:14px}
+.auth-card input{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ee;margin-top:6px}
+.small{font-size:13px;color:var(--muted)}
+.msg{margin-top:12px;color:crimson}
+
+/* ---------- responsive ---------- */
+@media (max-width:720px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .hero{height:46vh;padding:30px}
+  .hero h1{font-size:26px}
+  .list-grid{grid-template-columns:1fr}
+}

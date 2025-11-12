@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Add Job — Job Junction</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #2b4eff, #00c48c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.form-box {
+  background: #fff;
+  padding: 35px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+h2 { text-align:center;color:#2b4eff;margin-bottom:20px; }
+label { display:block;margin-top:10px;font-weight:500;color:#333; }
+input, textarea {
+  width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:5px;
+}
+button {
+  width:100%;margin-top:20px;padding:12px;background:#2b4eff;color:#fff;
+  border:none;border-radius:8px;font-weight:600;cursor:pointer;transition:.3s;
+}
+button:hover { background:#00c48c; }
+.home-btn { background:#00c48c;margin-top:10px; }
+.msg { text-align:center;margin-top:10px;font-size:14px; }
+</style>
+</head>
+<body>
+<div class="form-box">
+  <h2>Post a Job</h2>
+  <form id="addJobForm">
+    <label>Job Title</label>
+    <input name="title" required />
+    <label>Company Name</label>
+    <input name="company" required />
+    <label>Company Website (Optional)</label>
+    <input name="website" type="url" placeholder="https://company.com" />
+    <label>Location</label>
+    <input name="location" required />
+    <label>Description</label>
+    <textarea name="description" rows="4" required></textarea>
+    <button type="submit">Post Job</button>
+    <button type="button" class="home-btn" onclick="window.location.href='/index.html'">🏠 Go Home</button>
+    <p id="msg" class="msg"></p>
+  </form>
+</div>
+<script>
+document.getElementById("addJobForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await fetch("/add-job", {
+    method: "POST",
+    headers: {"content-type":"application/json"},
+    body: JSON.stringify(data)
+  });
+  const j = await res.json();
+  const msg = document.getElementById("msg");
+  msg.style.color = res.ok ? "#00c48c" : "red";
+  msg.textContent = j.message || j.error;
+  if (res.ok) e.target.reset();
+});
+</script>
+</body>
+</html>

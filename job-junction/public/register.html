@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Profile — Job Junction</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2b4eff, #00c48c);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: #333;
+    }
+
+    .register-container {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      padding: 40px 35px;
+      width: 90%;
+      max-width: 420px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      color: #2b4eff;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+
+    form label {
+      display: block;
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 6px;
+      margin-top: 15px;
+    }
+
+    form input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+
+    form input:focus {
+      border-color: #2b4eff;
+      box-shadow: 0 0 5px rgba(43,78,255,0.3);
+    }
+
+    .upload-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .upload-preview {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #f1f1f1;
+      border: 2px dashed #ccc;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .upload-preview:hover {
+      border-color: #2b4eff;
+    }
+
+    .upload-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .upload-text {
+      font-size: 13px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: #2b4eff;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #00c48c;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #2b4eff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .msg {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: crimson;
+    }
+
+    @media (max-width: 480px) {
+      .register-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Create Your Profile</h2>
+
+    <form id="registerForm" enctype="multipart/form-data">
+      <label for="name">Full Name</label>
+      <input type="text" name="name" id="name" placeholder="Enter your full name" required />
+
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" placeholder="you@example.com" required />
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" placeholder="Enter password" required />
+
+      <div class="upload-box">
+        <div class="upload-preview" id="previewBox">
+          <span id="uploadIcon">📸</span>
+          <img id="previewImg" src="" alt="" style="display:none;">
+        </div>
+        <input type="file" id="profile_image" name="profile_image" accept="image/*" style="display:none;">
+        <div class="upload-text">Click to upload profile photo</div>
+      </div>
+
+      <button class="btn-primary" type="submit">Create Profile</button>
+      <p class="login-link">Already have an account? <a href="/login.html">Login</a></p>
+      <p id="regMsg" class="msg"></p>
+    </form>
+  </div>
+
+  <script>
+    // Handle image preview
+    const uploadBox = document.getElementById('previewBox');
+    const fileInput = document.getElementById('profile_image');
+    const previewImg = document.getElementById('previewImg');
+    const uploadIcon = document.getElementById('uploadIcon');
+
+    uploadBox.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          previewImg.src = e.target.result;
+          previewImg.style.display = 'block';
+          uploadIcon.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Submit registration
+    document.getElementById('registerForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const res = await fetch('/register', { method: 'POST', body: formData });
+      const data = await res.json();
+      document.getElementById('regMsg').textContent = data.message || data.error;
+      if (res.ok) {
+        document.getElementById('regMsg').style.color = '#00c48c';
+        setTimeout(() => (window.location.href = '/login.html'), 1500);
+      }
+    });
+  </script>
+</body>
+</html>

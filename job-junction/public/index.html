@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Job Junction — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* 🌈 General Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f8fbff, #eef4ff);
+  color: #222;
+  min-height: 100vh;
+}
+
+/* 🌟 Navbar */
+header {
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #2b4eff, #00c48c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links a, .nav-links button {
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  color: #333;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+.nav-links a:hover, .nav-links button:hover {
+  color: #2b4eff;
+}
+button.primary {
+  background: linear-gradient(90deg, #2b4eff, #00c48c);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: 0.3s ease;
+}
+button.primary:hover {
+  transform: scale(1.05);
+}
+button.logout {
+  background: #ff4b4b;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+button.logout:hover { background: #e23636; }
+
+/* 💡 Hero Section */
+.hero {
+  text-align: center;
+  padding: 100px 30px;
+  background: url('https://www.transparenttextures.com/patterns/smooth-wall.png');
+  animation: fadeIn 1.5s ease-in;
+}
+.hero h1 {
+  font-size: 2.8rem;
+  background: linear-gradient(90deg, #2b4eff, #00c48c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 15px;
+}
+.hero p {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+.hero button {
+  background: linear-gradient(90deg, #2b4eff, #00c48c);
+  border: none;
+  border-radius: 30px;
+  padding: 12px 30px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+.hero button:hover {
+  transform: translateY(-3px);
+}
+
+/* 💼 Features Section */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 20px;
+}
+.feature {
+  background: #fff;
+  border-radius: 15px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: all 0.3s;
+}
+.feature:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+.feature h3 {
+  color: #2b4eff;
+  margin-top: 15px;
+  font-size: 1.2rem;
+}
+.feature p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+/* ✨ Footer */
+footer {
+  background: #f2f6ff;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 🔄 Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">JobJunction</div>
+  <nav class="nav-links">
+    <a href="/index.html">Home</a>
+    <a href="/jobs.html">Jobs</a>
+    <a href="/login.html" id="loginLink">Login</a>
+    <a href="/register.html" id="registerLink">Register</a>
+    <button id="addJobBtn" class="primary" style="display:none;">Add Job</button>
+    <button id="viewProfileBtn" style="display:none;">👤 Profile</button>
+    <button id="logoutBtn" class="logout" style="display:none;">Logout</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Welcome to <span>Job Junction</span></h1>
+  <p>Find your dream job or hire the best talent — all in one place.</p>
+  <button onclick="window.location.href='/jobs.html'">Explore Jobs</button>
+</section>
+
+<section class="features">
+  <div class="feature">
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" width="70" alt="Job Search" />
+    <h3>Search Jobs Easily</h3>
+    <p>Browse thousands of job openings based on your skills and interests.</p>
+  </div>
+
+  <div class="feature">
+    <img src="https://cdn-icons-png.flaticon.com/512/3596/3596089.png" width="70" alt="Post Job" />
+    <h3>Post & Manage Jobs</h3>
+    <p>Employers can post jobs, track applicants, and manage hiring seamlessly.</p>
+  </div>
+
+  <div class="feature">
+    <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" width="70" alt="Profile" />
+    <h3>Build Your Profile</h3>
+    <p>Upload your profile photo, showcase your skills, and get noticed by recruiters.</p>
+  </div>
+</section>
+
+<footer>
+  © 2025 Job Junction. All rights reserved.
+</footer>
+
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+const addJobBtn = document.getElementById("addJobBtn");
+const loginLink = document.getElementById("loginLink");
+const registerLink = document.getElementById("registerLink");
+const viewProfileBtn = document.getElementById("viewProfileBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (user) {
+  loginLink.style.display = "none";
+  registerLink.style.display = "none";
+  addJobBtn.style.display = "inline-block";
+  viewProfileBtn.style.display = "inline-block";
+  logoutBtn.style.display = "inline-block";
+}
+
+addJobBtn.onclick = () => window.location.href = "/add-job.html";
+viewProfileBtn.onclick = () => window.location.href = "/view-profile.html";
+logoutBtn.onclick = () => { localStorage.removeItem("user"); window.location.reload(); };
+</script>
+</body>
+</html>
